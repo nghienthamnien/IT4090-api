@@ -1,31 +1,34 @@
 # IT4090-api
+
 Group3_IT4090_HUST_20231
 
-## Môi trường:
+## Môi trường
+
 1. NodeJS: ^20.5.1
 2. MySQL: ^8.1.0
 
     [download MySQL server](https://dev.mysql.com/downloads/mysql/)
 
-## Hướng dẫn cài đặt dự án:
+## Hướng dẫn cài đặt dự án
 
 1. clone project
 
 2. Mở terminal và cài đặt các dependecy bằng lệnh: `npm i`
-    
+
 3. Config dự án:
     - Trong thư mục gốc của dự án, tìm tệp .env.example và sao chép nó thành một tệp mới tên .env
     - Mở tệp .env và cấu hình các biến môi trường (thay thế các biến DATABASE_USER, DATABASE_PASSWORDDATABASE_NAME, DATABASE_HOST, DATABASE_PORT để config MySQL)
 
 4. Mở terminal và init database bằng lệnh: `npm run migrate:up`
 5. Chạy dự án bằng lệnh: `npm run dev`
-   
+
     url: <http://localhost:8080/api/v1>
-   
+
     swagger: <http://localhost:8080/api-docs/>
 
 ## Cấu trúc thư mục: (chủ yếu code trong thư mục src)
-```
+
+```text
 my-nodejs-project/
 ├── .husky/            (Lint code khi commit)
 ├── db/
