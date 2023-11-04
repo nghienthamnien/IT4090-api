@@ -1,0 +1,154 @@
+openapi: '3.1.2'
+info:
+    title: clothing store api
+    version: '1.0.0'
+    description: This is api for clothing store
+    contact:
+        name: nghienthamnien
+        url: https://facebook.com
+        email: ptbinh2w@gmail.com
+    license:
+        name: Apache 2.0
+        url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+    - url: http://localhost:{port}/{basePath}
+      description: development servers
+      variables:
+          port:
+              enum:
+                  - '8080'
+                  - '3000'
+              default: '8080'
+          basePath:
+              default: api/v1
+
+tags:
+    - name: User
+      description: User operations
+
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                email:
+                    type: string
+                phone_number:
+                    type: string
+                password:
+                    type: string
+                province:
+                    type: string
+                district:
+                    type: string
+                commune:
+                    type: string
+                specific_address:
+                    type: string
+
+paths:
+    /auth/signup:
+        post:
+            tags:
+                - User
+            description: return jwt token store in cookie
+            summary: sign up for user
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer
+                                name:
+                                    type: string
+                                email:
+                                    type: string
+                                phone_number:
+                                    type: string
+                                password:
+                                    type: string
+                                province:
+                                    type: string
+                                district:
+                                    type: string
+                                commune:
+                                    type: string
+                                specific_address:
+                                    type: string
+
+                            required:
+                                - name
+                                - phone_number
+                                - password
+                                - province
+                                - district
+                                - commune
+                                - specific_address
+            responses:
+                '201':
+                    description: Created
+    /auth/login:
+        post:
+            tags:
+                - User
+            description: user login
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            properties:
+                                phone_number:
+                                    type: string
+                                password:
+                                    type: string
+                            required:
+                                - phone_number
+                                - password
+            responses:
+                '200':
+                    description: login successful
+                '401':
+                    description: unvalid information
+                '500':
+                    description: internal error
+    /user/address:
+        post:
+            tags:
+                - User
+            summary: 'Add new address'
+            description: 'Add new addresss'
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlendcoded:
+                        schema:
+                            type: object
+                            properties:
+                                province:
+                                    type: string
+                                district:
+                                    type: string
+                                commune:
+                                    type: string
+                                specific_address:
+                                    type: string
+                            required:
+                                - province
+                                - district
+                                - commune
+                                - specific_address
+            responses:
+                '201':
+                    description: Created
+                '400':
+                    description: Bad requestBody
+                '500':
+                    description: Internal error
