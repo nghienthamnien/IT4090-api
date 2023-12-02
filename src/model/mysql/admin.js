@@ -63,6 +63,10 @@ module.exports = (sequelize, DataTypes) => {
                     },
                 },
             },
+            create_by: {
+                type: DataTypes.UUID,
+                allowNull: true,
+            },
         },
         {
             tableName: 'admin',
