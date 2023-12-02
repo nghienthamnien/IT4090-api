@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
-const { secretKey, accessTokenExpireIn, refreshTokenExpireIn, algorithm } =
-    require('../config').jwt;
+const { secretKey, algorithm } = require('../config').jwt;
 const { saltRounds } = require('../config').hash;
 
 module.exports = {
@@ -16,21 +15,37 @@ module.exports = {
         return match;
     },
 
-    generateToken(payload) {
-        logger.debug(payload);
-        const accessToken = jwt.sign(payload, secretKey, {
-            algorithm,
-            expiresIn: accessTokenExpireIn,
+    generateToken(payload, expiresIn) {
+        if (!payload) {
+            logger.debug('payload is empty', payload);
+            return new Promise((_, reject) => {
+                reject(new Error('Payload is empty'));
+            });
+        }
+        return new Promise((resolve, reject) => {
+            jwt.sign(
+                payload,
+                secretKey,
+                {
+                    algorithm,
+                    expiresIn,
+                },
+                (err, token) => (err ? reject(err) : resolve(token)),
+            );
         });
-        const refreshToken = jwt.sign(payload, secretKey, {
-            algorithm,
-            expiresIn: refreshTokenExpireIn,
-        });
-        return { accessToken, refreshToken };
     },
 
     validateToken(token) {
-        const decode = jwt.verify(token, secretKey);
-        return decode;
+        if (!token) {
+            logger.debug('No token provided', token);
+            return new Promise((_, reject) => {
+                reject(new Error('No token provided'));
+            });
+        }
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, secretKey, { complete: false }, (err, decoded) =>
+                err ? reject(err) : resolve(decoded),
+            );
+        });
     },
 };
