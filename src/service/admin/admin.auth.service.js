@@ -1,6 +1,8 @@
 const { ServiceError, ServiceSuccess, APIError } = require('../../util/common');
 const STATUS_CODES = require('../../constant/status-code');
 const db = require('../../model/mysql');
+const { accessTokenExpireIn, refreshTokenExpireIn } =
+    require('../../config').jwt;
 const {
     generateHash,
     generateToken,
@@ -25,7 +27,8 @@ module.exports = {
      * @returns {response}
      */
     async signup(data) {
-        const { uuid, name, email, phone_number, password, role } = data;
+        const { uuid, name, email, phone_number, password, role, create_by } =
+            data;
         try {
             if (
                 !uuid ||
@@ -33,7 +36,8 @@ module.exports = {
                 !email ||
                 !phone_number ||
                 !password ||
-                !role
+                !role ||
+                !create_by
             ) {
                 return ServiceError(
                     'Bad Request',
@@ -49,18 +53,9 @@ module.exports = {
                 phone_number,
                 password: hashPassword,
                 role,
+                create_by,
             });
-            const { accessToken, refreshToken } = await generateToken({
-                uuid,
-                name,
-                phone_number,
-                email,
-                role,
-            });
-            return ServiceSuccess('Created', STATUS_CODES.CREATED, {
-                accessToken,
-                refreshToken,
-            });
+            return ServiceSuccess('Created', STATUS_CODES.CREATED);
         } catch (error) {
             return ServiceError(
                 'Internal Error',
@@ -97,16 +92,31 @@ module.exports = {
                 );
             const checkPassword = await validateHash(password, admin.password);
             if (checkPassword) {
-                const { accessToken, refreshToken } = await generateToken({
-                    uuid: admin.uuid,
-                    name: admin.name,
-                    email: admin.email,
-                    role: admin.role,
-                    phone_number: username,
-                });
+                const accessToken = await generateToken(
+                    {
+                        uuid: admin.uuid,
+                        name: admin.name,
+                        email: admin.email,
+                        role: admin.role,
+                        phone_number: username,
+                    },
+                    accessTokenExpireIn,
+                );
+                const refreshToken = await generateToken(
+                    {
+                        uuid: admin.uuid,
+                        name: admin.name,
+                        email: admin.email,
+                        role: admin.role,
+                        phone_number: username,
+                    },
+                    refreshTokenExpireIn,
+                );
                 return ServiceSuccess('oke', STATUS_CODES.OK, {
                     accessToken,
                     refreshToken,
+                    adminName: admin.name,
+                    adminId: admin.uuid,
                 });
             }
             return ServiceError('Invalid data', STATUS_CODES.UN_AUTHORIZED);
@@ -124,16 +134,27 @@ module.exports = {
         const { token } = data;
         try {
             const decode = await validateToken(token);
-            logger.debug(decode);
-            const { accessToken, refreshToken } = await generateToken({
-                hhj: 'kjjk',
-            });
+            const payload = {
+                uuid: decode.uuid,
+                name: decode.name,
+                email: decode.email,
+                role: decode.role,
+                phone_number: decode.username,
+            };
+            const accessToken = await generateToken(
+                payload,
+                accessTokenExpireIn,
+            );
+            const refreshToken = await generateToken(
+                payload,
+                refreshTokenExpireIn,
+            );
             return ServiceSuccess('oke', STATUS_CODES.OK, {
                 accessToken,
                 refreshToken,
             });
         } catch (error) {
-            logger.debug(error);
+            logger.debug(error.name, error.message);
             return ServiceError(
                 'Unauthorized',
                 STATUS_CODES.UN_AUTHORIZED,

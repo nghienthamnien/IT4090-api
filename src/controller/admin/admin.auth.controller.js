@@ -10,6 +10,7 @@ module.exports = {
     async signup(req, res, next) {
         const { name, email, phone_number, password, role } = req.body;
         const uuid = uuidv4();
+        const create_by = req.user.uuid;
         try {
             // validate
             const validationError = await adminValidation({
@@ -42,6 +43,7 @@ module.exports = {
                 phone_number,
                 password,
                 role,
+                create_by,
             });
             if (err) {
                 logger.error(err.name, err.msg, {
@@ -57,21 +59,7 @@ module.exports = {
                     .json(APIError(err.name, err.msg));
             }
 
-            // set token
-            const { accessToken, refreshToken } = result.data;
-            res.cookie('refresh_token', refreshToken, {
-                maxAge: 86409000,
-                path: `${baseURL}/auth/refreshToken`,
-                expires: new Date(
-                    new Date().getTime() + 86409000,
-                ).toUTCString(),
-                secure: false,
-                httpOnly: true,
-                sameSite: 'strict',
-            });
-            return res
-                .status(result.statusCode)
-                .json(APISuccess(result.msg, { accessToken }));
+            return res.status(result.statusCode).json(APISuccess(result.msg));
         } catch (error) {
             return next(error);
         }
@@ -100,12 +88,13 @@ module.exports = {
                     .status(err.statusCode)
                     .json(APIError(err.name, err.msg));
             }
-            const { accessToken, refreshToken } = result.data;
+            const { accessToken, refreshToken, adminName, adminId } =
+                result.data;
 
             // set token
             res.cookie('refresh_token', refreshToken, {
                 maxAge: 86409000,
-                path: `${baseURL}/auth/refreshToken`,
+                path: `${baseURL}/admin/auth/refresh`,
                 expires: new Date(
                     new Date().getTime() + 86409000,
                 ).toUTCString(),
@@ -115,7 +104,9 @@ module.exports = {
             });
             return res
                 .status(result.statusCode)
-                .json(APISuccess(result.msg, { accessToken }));
+                .json(
+                    APISuccess(result.msg, { accessToken, adminName, adminId }),
+                );
         } catch (error) {
             return next(error);
         }
@@ -123,6 +114,7 @@ module.exports = {
 
     // TODO: Implement refresh token logic
     async refreshToken(req, res, next) {
+        logger.debug(req.cookies);
         const token = req.cookies.refresh_token;
         try {
             const { err, result } = await AdminAuthService.refreshToken({
@@ -137,7 +129,7 @@ module.exports = {
             const { accessToken, refreshToken } = result.data;
             res.cookie('refresh_token', refreshToken, {
                 maxAge: 86409000,
-                path: `${baseURL}/auth/refreshToken`,
+                path: `${baseURL}/admin/auth/refresh`,
                 expires: new Date(
                     new Date().getTime() + 86409000,
                 ).toUTCString(),
