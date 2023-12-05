@@ -87,6 +87,9 @@ const logger = createLogger({
 const formatLogArguments = (args) => {
     let newArgs = args
         .map((element) => {
+            if (element instanceof Error) {
+                return `${element.name} - ${element.message} - ${element.stack}`;
+            }
             if (typeof element === 'object') {
                 return JSON.stringify(element);
             }
