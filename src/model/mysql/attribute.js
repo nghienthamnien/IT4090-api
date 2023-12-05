@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             attribute_id: {
                 type: DataTypes.INTEGER,
-                autoIncrement: false,
+                autoIncrement: true,
                 primaryKey: true,
             },
             attribute_name: {
@@ -36,10 +36,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'attribute_id',
             otherKey: 'catalog_id',
         });
-        // Attribute.hasMany(models.PropertyValue, {
-        //     as: 'value',
-        //     foreignKey: 'attribute_id',
-        // });
+        Attribute.hasMany(models.AttributeOption, {
+            as: 'value',
+            foreignKey: 'attribute_id',
+        });
     };
 
     return Attribute;
