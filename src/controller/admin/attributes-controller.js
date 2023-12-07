@@ -16,12 +16,18 @@ module.exports = {
                 .status(STATUS_CODES.BAD_REQUEST)
                 .json(APIError('Bad Request'));
         }
+        // eslint-disable-next-line arrow-body-style
+        const values = attributeValue.map((value) => {
+            return {
+                attribute_value: value,
+            };
+        });
         try {
             const { err, result } = await AttributeService.createAttribute({
                 attributeName,
                 code,
                 sortOrder,
-                attributeValue,
+                values,
             });
             if (err) {
                 return res

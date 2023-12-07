@@ -12,3 +12,4 @@ test
 *.sw?
 logs
 sequelizeMeta.json
+sequelizeData.json

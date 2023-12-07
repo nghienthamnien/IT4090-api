@@ -6,17 +6,11 @@ const logger = require('../../util/logger');
 const { Attribute } = db;
 module.exports = {
     async createAttribute(data) {
-        const { attributeName, code, sortOrder, attributeValue } = data;
-        if (!attributeName || !code || !attributeValue) {
+        const { attributeName, code, sortOrder, values } = data;
+        if (!attributeName || !code || !values) {
             return ServiceError('Invalid Data', STATUS_CODES.INTERNAL_ERROR);
         }
 
-        // eslint-disable-next-line arrow-body-style
-        const values = attributeValue.map((value) => {
-            return {
-                attribute_value: value,
-            };
-        });
         try {
             await Attribute.create(
                 {
