@@ -32,7 +32,7 @@ module.exports = {
             },
             meta_title: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             meta_keywords: {
                 type: Sequelize.DataTypes.STRING,
@@ -40,7 +40,7 @@ module.exports = {
             },
             url_key: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             catalog_id: {
                 type: Sequelize.DataTypes.INTEGER,
