@@ -14,6 +14,7 @@ module.exports = {
         createdAt: 'created_at',
         updatedAt: 'updated_at',
     },
+    timezone: '+07:00',
     logging: (msg) => logger.debug(msg),
     pool: {
         min: 0,
