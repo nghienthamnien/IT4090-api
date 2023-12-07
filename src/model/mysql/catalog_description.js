@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             description: { type: DataTypes.TEXT, allowNull: true },
             meta_title: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             meta_keywords: {
                 type: DataTypes.STRING,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             url_key: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
         },
         { tableName: 'catalog_description' },

@@ -24,8 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     Catalog.associate = (models) => {
-        Catalog.hasMany(models.Product, { foreignKey: 'cat_id' });
-        Catalog.hasMany(models.CatalogDescription, { foreignKey: 'cat_id' });
+        Catalog.hasMany(models.Product, { foreignKey: 'catalog_id' });
+        Catalog.hasMany(models.CatalogDescription, {
+            foreignKey: 'catalog_id',
+        });
         Catalog.hasMany(models.Catalog, {
             as: 'child',
             foreignKey: 'parent_id',
@@ -33,6 +35,14 @@ module.exports = (sequelize, DataTypes) => {
         Catalog.belongsTo(models.Catalog, {
             as: 'parent',
             foreignKey: 'parent_id',
+        });
+        Catalog.belongsToMany(models.Attribute, {
+            through: models.AttributeSet,
+            foreignKey: 'catalog_id',
+            otherKey: 'attribute_id',
+        });
+        Catalog.hasMany(models.AttributeSet, {
+            foreignKey: 'catalog_id',
         });
     };
 

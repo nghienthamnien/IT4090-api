@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
             as: 'value',
             foreignKey: 'attribute_id',
         });
+        Attribute.hasMany(models.AttributeSet, { foreignKey: 'attribute_id' });
     };
 
     return Attribute;
