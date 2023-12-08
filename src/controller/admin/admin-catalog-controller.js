@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const _ = require('lodash');
 const { APIError, APISuccess } = require('../../util/common');
 const STATUS_CODES = require('../../constant/status-code');
