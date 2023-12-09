@@ -18,6 +18,7 @@ module.exports = {
             meta_keywords,
             url_key,
             attributes,
+            status,
         } = data;
         const t = await db.sequelize.transaction();
         try {
@@ -25,7 +26,7 @@ module.exports = {
                 {
                     uuid,
                     parent_id: parent_id || 1,
-
+                    status: status || 0,
                     // ** name of model is plural - dm sequlize
                     CatalogDescriptions: [
                         {

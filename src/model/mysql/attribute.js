@@ -18,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
             sort_order: {
                 type: DataTypes.INTEGER,
             },
+            type: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            visible: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: true,
+            },
         },
         {
             tableName: 'attribute',

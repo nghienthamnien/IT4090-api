@@ -16,6 +16,7 @@ module.exports = {
             meta_title,
             meta_keywords,
             url_key,
+            status,
             attributes,
         } = req.body;
 
@@ -47,6 +48,7 @@ module.exports = {
                 meta_keywords,
                 url_key,
                 attributes,
+                status,
             });
             if (err) {
                 return res
