@@ -47,4 +47,25 @@ module.exports = {
             return ServiceError('Service error', error);
         }
     },
+
+    async deleteAttribute(attribute_id) {
+        try {
+            await db.sequelize.query(
+                `DELETE attribute, attribute_option
+                FROM attribute
+                INNER JOIN attribute_option ON attribute.attribute_id = attribute_option.attribute_id
+                WHERE attribute.attribute_id = :ATTRIBUTE_ID`,
+                {
+                    replacements: {
+                        ATTRIBUTE_ID: attribute_id,
+                    },
+                    type: db.sequelize.QueryTypes.DELETE,
+                },
+            );
+            return ServiceSuccess('OK', STATUS_CODES.OK);
+        } catch (err) {
+            logger.debug(err);
+            return ServiceError('Service error', STATUS_CODES.INTERNAL_ERROR);
+        }
+    },
 };

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             short_description: { type: DataTypes.TEXT, allowNull: true },
-            description: { type: DataTypes.TEXT, allowNull: true },
+            meta_description: { type: DataTypes.TEXT, allowNull: true },
             meta_title: {
                 type: DataTypes.STRING,
                 allowNull: true,

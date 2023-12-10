@@ -87,4 +87,48 @@ module.exports = {
             return ServiceError('service error', STATUS_CODES.INTERNAL_ERROR);
         }
     },
+    async deleteCatalog(uuid) {
+        const t = await db.sequelize.transaction();
+        try {
+            const catalog = await Catalog.findOne({ where: { uuid } });
+            await db.sequelize.query(
+                `DELETE c , catalog_description , attribute_set FROM catalog AS c
+            INNER JOIN
+        catalog_description ON c.catalog_id = catalog_description.catalog_id
+            INNER JOIN
+        attribute_set ON c.catalog_id = attribute_set.catalog_id 
+    WHERE
+        c.uuid = :UUID`,
+                {
+                    replacements: {
+                        UUID: uuid,
+                    },
+                    type: db.sequelize.QueryTypes.DELETE,
+                    transaction: t,
+                },
+            );
+            await db.sequelize.query(
+                `DELETE c , catalog_description , attribute_set FROM catalog AS c
+            INNER JOIN
+        catalog_description ON c.catalog_id = catalog_description.catalog_id
+            INNER JOIN
+        attribute_set ON c.catalog_id = attribute_set.catalog_id 
+    WHERE
+        c.uuid = :PARENT_ID`,
+                {
+                    replacements: {
+                        PARENT_ID: catalog.catalog_id,
+                    },
+                    type: db.sequelize.QueryTypes.DELETE,
+                    transaction: t,
+                },
+            );
+            await t.commit();
+            return ServiceSuccess('OK', STATUS_CODES.OK);
+        } catch (error) {
+            logger.debug(error);
+            await t.rollback();
+            return ServiceError('Service error', STATUS_CODES.INTERNAL_ERROR);
+        }
+    },
 };

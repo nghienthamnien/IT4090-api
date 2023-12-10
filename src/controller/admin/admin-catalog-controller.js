@@ -113,4 +113,19 @@ module.exports = {
             return next(error);
         }
     },
+
+    async deleteCatalog(req, res, next) {
+        const { uuid } = req.params;
+        try {
+            const { err, result } = await CatalogService.deleteCatalog(uuid);
+            if (err) {
+                return res
+                    .status(err.statusCode)
+                    .json(APIError(err.name, err.msg));
+            }
+            return res.status(result.statusCode).json(APISuccess(result.msg));
+        } catch (error) {
+            return next(error);
+        }
+    },
 };

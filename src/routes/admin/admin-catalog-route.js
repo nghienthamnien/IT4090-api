@@ -4,5 +4,6 @@ const CatalogController = require('../../controller/admin/admin-catalog-controll
 
 router.post('/', authJWT, CatalogController.createCatalog);
 router.get('/', authJWT, CatalogController.findAllCatalog);
+router.delete('/:uuid', authJWT, CatalogController.deleteCatalog);
 
 module.exports = router;

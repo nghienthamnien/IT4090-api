@@ -25,7 +25,10 @@ module.exports = {
                 type: Sequelize.DataTypes.TEXT,
                 allowNull: true,
             },
-            description: { type: Sequelize.DataTypes.TEXT, allowNull: true },
+            meta_description: {
+                type: Sequelize.DataTypes.TEXT,
+                allowNull: true,
+            },
             meta_title: {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: true,

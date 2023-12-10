@@ -76,4 +76,23 @@ module.exports = {
             return next(error);
         }
     },
+
+    async deleteAttribute(req, res, next) {
+        const attribute_id = req.params.id;
+        try {
+            const { err, result } = await AttributeService.deleteAttribute(
+                attribute_id,
+            );
+            if (err) {
+                return res
+                    .status(err.statusCode)
+                    .json(APIError(err.name, err.msg));
+            }
+            return res
+                .status(result.statusCode)
+                .json(APISuccess(result.msg, result.data));
+        } catch (error) {
+            return next(error);
+        }
+    },
 };
