@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const AttributesService = require('../../service/admin/admin-attributes-service');
 const ProductService = require('../../service/admin/admin-product-service');
-const { APIError, APISuccess } = require('../../util/common');
+const { APIError, APISuccess, ServiceError } = require('../../util/common');
 const logger = require('../../util/logger');
 const STATUS_CODES = require('../../constant/status-code');
 
@@ -117,6 +117,26 @@ module.exports = {
                 .json(APISuccess(productServiceResult.msg));
         } catch (err) {
             return next(err);
+        }
+    },
+
+    async findAllProduct(req, res, next) {
+        const { page = 1 } = req.query;
+        const limit = 10;
+        const offset = limit * (page - 1);
+        try {
+            const { err, result } = await ProductService.findAllProduct({
+                offset,
+                limit,
+            });
+            if (err) {
+                return res
+                    .status(err.statusCode)
+                    .json(APIError(err.name, err.msg));
+            }
+            return res.status(result.statusCode).json(result.data);
+        } catch (error) {
+            return next(error);
         }
     },
 };

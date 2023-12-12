@@ -5,6 +5,7 @@ const fs = require('fs');
 const http = require('http');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 const { sequelize } = require('./model/mysql');
 const { baseURL } = require('./config');
 const { port } = require('./config').express;
@@ -37,6 +38,7 @@ try {
     app.use(morganMiddleware);
     app.use(baseURL, Router);
     app.use(errorHandler);
+    app.use('/static', express.static(path.join(process.cwd(), 'public')));
     logger.info('Set up express succesfully');
     try {
         await sequelize.authenticate();
