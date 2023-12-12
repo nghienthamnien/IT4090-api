@@ -23,17 +23,13 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DOUBLE,
                 allowNull: false,
             },
-            description: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-            },
             visibility: {
                 type: DataTypes.BOOLEAN,
-                defaultValue: true,
+                defaultValue: false,
             },
             status: {
                 type: DataTypes.BOOLEAN,
-                defaultValue: true,
+                defaultValue: false,
             },
             rating: {
                 type: DataTypes.DOUBLE,
@@ -51,6 +47,9 @@ module.exports = (sequelize, DataTypes) => {
         Product.belongsTo(models.Catalog, { foreignKey: 'catalog_id' });
         Product.hasMany(models.ProductEntity, {
             as: 'item',
+            foreignKey: 'product_id',
+        });
+        Product.hasMany(models.ProductDescription, {
             foreignKey: 'product_id',
         });
     };

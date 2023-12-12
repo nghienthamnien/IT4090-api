@@ -17,10 +17,6 @@ module.exports = {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            name: {
-                type: Sequelize.DataTypes.STRING,
-                allowNull: false,
-            },
             short_description: {
                 type: Sequelize.DataTypes.TEXT,
                 allowNull: true,

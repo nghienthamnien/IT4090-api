@@ -25,13 +25,18 @@ module.exports = {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: true,
             },
-            quantity_in_stock: {
+            quantity: {
                 type: Sequelize.DataTypes.INTEGER,
                 allowNull: false,
             },
             status: {
                 type: Sequelize.DataTypes.BOOLEAN,
                 defaultValue: true,
+            },
+            sold: {
+                type: Sequelize.DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
             },
             product_id: {
                 type: Sequelize.DataTypes.INTEGER,

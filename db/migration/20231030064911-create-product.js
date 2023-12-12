@@ -39,11 +39,11 @@ module.exports = {
             },
             visibility: {
                 type: Sequelize.DataTypes.BOOLEAN,
-                defaultValue: true,
+                defaultValue: false,
             },
             status: {
                 type: Sequelize.DataTypes.BOOLEAN,
-                defaultValue: true,
+                defaultValue: false,
             },
             rating: {
                 type: Sequelize.DataTypes.DOUBLE,

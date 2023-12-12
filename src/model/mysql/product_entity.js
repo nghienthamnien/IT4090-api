@@ -15,13 +15,18 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
-            quantity_in_stock: {
+            quantity: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
             status: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: true,
+            },
+            sold: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
             },
         },
         {
@@ -33,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     ProductEntity.associate = (models) => {
         ProductEntity.belongsTo(models.Product, { foreignKey: 'product_id' });
         ProductEntity.hasMany(models.ProductImage, {
-            as: 'image',
+            as: 'images',
             foreignKey: 'product_entity_id',
         });
         ProductEntity.belongsToMany(models.AttributeOption, {
@@ -43,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         });
         ProductEntity.hasMany(models.ProductAttributeValue, {
             foreignKey: 'entity_id',
+            as: 'attributeValue',
         });
         ProductEntity.hasMany(models.CartItem, {
             foreignKey: 'product_entity_id',
