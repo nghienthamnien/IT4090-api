@@ -1,6 +1,9 @@
 {
     "name": "it4090-api",
     "version": "1.0.0",
+    "engines": {
+        "node": ">=20.0.0"
+    },
     "description": "clothing store api",
     "main": "src/app.js",
     "scripts": {

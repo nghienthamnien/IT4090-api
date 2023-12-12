@@ -13,3 +13,4 @@ test
 logs
 sequelizeMeta.json
 sequelizeData.json
+public
