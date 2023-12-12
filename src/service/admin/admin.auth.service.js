@@ -58,7 +58,7 @@ module.exports = {
             return ServiceSuccess('Created', STATUS_CODES.CREATED);
         } catch (error) {
             return ServiceError(
-                'Internal Error',
+                'Auth Service Error',
                 STATUS_CODES.INTERNAL_ERROR,
                 error,
             );
@@ -122,7 +122,7 @@ module.exports = {
             return ServiceError('Invalid data', STATUS_CODES.UN_AUTHORIZED);
         } catch (error) {
             return ServiceError(
-                'Internal Error',
+                'Auth Service Error',
                 STATUS_CODES.INTERNAL_ERROR,
                 error.message,
             );

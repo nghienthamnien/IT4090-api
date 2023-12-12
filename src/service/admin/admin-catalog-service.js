@@ -60,7 +60,10 @@ module.exports = {
         } catch (error) {
             logger.debug(error);
             await t.rollback();
-            return ServiceError('Service Error', STATUS_CODES.INTERNAL_ERROR);
+            return ServiceError(
+                'Catalog Service Error',
+                STATUS_CODES.INTERNAL_ERROR,
+            );
         }
     },
     async findAllCatalog() {
@@ -128,7 +131,10 @@ module.exports = {
         } catch (error) {
             logger.debug(error);
             await t.rollback();
-            return ServiceError('Service error', STATUS_CODES.INTERNAL_ERROR);
+            return ServiceError(
+                'Catalog Service error',
+                STATUS_CODES.INTERNAL_ERROR,
+            );
         }
     },
 };
