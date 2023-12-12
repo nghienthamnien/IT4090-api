@@ -26,7 +26,10 @@ module.exports = {
             return ServiceSuccess('Created', STATUS_CODES.CREATED);
         } catch (error) {
             logger.debug(error);
-            return ServiceError('Internal Error', STATUS_CODES.INTERNAL_ERROR);
+            return ServiceError(
+                'Attribute Service Error',
+                STATUS_CODES.INTERNAL_ERROR,
+            );
         }
     },
 
@@ -44,7 +47,7 @@ module.exports = {
             });
             return ServiceSuccess('OK', STATUS_CODES.OK, result);
         } catch (error) {
-            return ServiceError('Service error', error);
+            return ServiceError('Attribute Service error', error);
         }
     },
 
@@ -65,7 +68,39 @@ module.exports = {
             return ServiceSuccess('OK', STATUS_CODES.OK);
         } catch (err) {
             logger.debug(err);
-            return ServiceError('Service error', STATUS_CODES.INTERNAL_ERROR);
+            return ServiceError(
+                'Attribute Service error',
+                STATUS_CODES.INTERNAL_ERROR,
+            );
+        }
+    },
+
+    async findAttributeSet(catalog_id) {
+        try {
+            const result = await Attribute.findAll({
+                attributes: ['attribute_id', 'attribute_name'],
+                include: [
+                    {
+                        model: db.Catalog,
+                        attributes: [],
+                        required: true,
+                        where: { catalog_id },
+                        through: { model: db.AttributeSet, attributes: [] },
+                    },
+                    {
+                        model: db.AttributeOption,
+                        as: 'value',
+                        attributes: ['attribute_option_id', 'attribute_value'],
+                    },
+                ],
+            });
+            return ServiceSuccess('OK', STATUS_CODES.OK, result);
+        } catch (error) {
+            logger.debug(error);
+            return ServiceError(
+                'Attribute Service error',
+                STATUS_CODES.INTERNAL_ERROR,
+            );
         }
     },
 };

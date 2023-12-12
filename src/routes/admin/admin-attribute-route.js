@@ -6,5 +6,6 @@ const AttributeController = require('../../controller/admin/attributes-controlle
 router.post('/', authJWT, AttributeController.createAtribute);
 router.get('/', authJWT, AttributeController.findAllAttribute);
 router.delete('/:id', authJWT, AttributeController.deleteAttribute);
+router.get('/:catalogId', authJWT, AttributeController.findAttributeSet);
 
 module.exports = router;

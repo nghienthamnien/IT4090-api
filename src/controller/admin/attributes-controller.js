@@ -95,4 +95,23 @@ module.exports = {
             return next(error);
         }
     },
+
+    async findAttributeSet(req, res, next) {
+        const catalog_id = req.params.catalogId;
+        try {
+            const { err, result } = await AttributeService.findAttributeSet(
+                catalog_id,
+            );
+            if (err) {
+                return res
+                    .status(err.statusCode)
+                    .json(APIError(err.name, err.msg));
+            }
+            return res
+                .status(result.statusCode)
+                .json(APISuccess(result.msg, result.data));
+        } catch (error) {
+            return next(error);
+        }
+    },
 };
