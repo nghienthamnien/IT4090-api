@@ -26,7 +26,7 @@ Group3_IT4090_HUST_20231
 
     swagger: <http://localhost:8080/api-docs/>
 
-## Cấu trúc thư mục: (chủ yếu code trong thư mục src)
+## Cấu trúc thư mục:
 
 ```text
 my-nodejs-project/
