@@ -92,7 +92,7 @@ module.exports = {
                     name,
                     price,
                     status: status || 0,
-                    visiblility: visible || 0,
+                    visibility: visible || 0,
                     catalog_id: catalog,
                     ProductDescriptions: [
                         {

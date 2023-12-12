@@ -26,7 +26,7 @@ try {
     logger.info('Starting Server');
     app.use(
         cors({
-            origin: 'http://localhost:5173',
+            origin: ['http://localhost:5173', 'http://localhost:3000'],
             maxAge: 86400000,
             methods: ['GET', 'PUT', 'POST', 'DELETE'],
             credentials: true,

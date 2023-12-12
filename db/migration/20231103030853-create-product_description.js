@@ -29,7 +29,7 @@ module.exports = {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: true,
             },
-            meta_keywords: {
+            meta_keyword: {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: true,
             },

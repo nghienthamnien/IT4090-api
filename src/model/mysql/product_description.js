@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
-            meta_keywords: {
+            meta_keyword: {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
