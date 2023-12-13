@@ -4,6 +4,7 @@ module.exports = (Router) => {
     Router.use('/admin/catalog', require('./admin-catalog-route'));
     Router.use('/admin/product', require('./admin-product-route'));
     Router.use('/admin/employee', require('./admin-employee-route'));
+    Router.use('/admin/customer', require('./admin-customer-route'));
 
     return Router;
 };

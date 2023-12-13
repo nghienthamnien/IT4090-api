@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             order_date: {
                 type: DataTypes.DATE,
                 allowNull: false,
+                defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
             },
         },
         {

@@ -32,6 +32,7 @@ module.exports = {
             order_date: {
                 type: Sequelize.DataTypes.DATE,
                 allowNull: false,
+                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             },
             user_id: {
                 type: Sequelize.DataTypes.INTEGER,
