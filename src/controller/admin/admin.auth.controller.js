@@ -102,13 +102,11 @@ module.exports = {
                 httpOnly: true,
                 sameSite: 'strict',
             });
-            return res.status(result.statusCode).json(
-                APISuccess(result.msg, {
-                    accessToken: `Bearer ${accessToken}`,
-                    adminName,
-                    adminId,
-                }),
-            );
+            return res
+                .status(result.statusCode)
+                .json(
+                    APISuccess(result.msg, { accessToken, adminName, adminId }),
+                );
         } catch (error) {
             return next(error);
         }
@@ -139,11 +137,9 @@ module.exports = {
                 httpOnly: true,
                 sameSite: 'strict',
             });
-            return res.status(result.statusCode).json(
-                APISuccess(result.msg, {
-                    accessToken: `Bearer ${accessToken}`,
-                }),
-            );
+            return res
+                .status(result.statusCode)
+                .json(APISuccess(result.msg, { accessToken }));
         } catch (error) {
             return next(error);
         }

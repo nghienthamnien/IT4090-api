@@ -63,12 +63,9 @@ module.exports = {
             }
             const { accessToken, userInfo } = result.data;
 
-            return res.status(result.statusCode).json(
-                APISuccess(result.msg, {
-                    accessToken: `Bearer ${accessToken}`,
-                    userInfo,
-                }),
-            );
+            return res
+                .status(result.statusCode)
+                .json(APISuccess(result.msg, { accessToken, userInfo }));
         } catch (error) {
             return next(error);
         }
